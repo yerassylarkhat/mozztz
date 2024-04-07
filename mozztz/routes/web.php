@@ -23,6 +23,8 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home_page')->middleware('admin');
+Route::get('/', [HomeController::class, 'index'])->name('home_page')->middleware('auth');
+Route::get('/post/{post_id}', [HomeController::class, 'show'])->name('show_page')->middleware('auth');
 
-
+Route::delete('/post/{post_id}/delete', [HomeController::class, 'delete'])->name('post_delete')->middleware('admin');
+Route::put('/post/{post_id}/edit', [HomeController::class, 'edit'])->name('post_edit')->middleware('admin');

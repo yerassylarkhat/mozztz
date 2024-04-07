@@ -13,7 +13,7 @@ class Post extends Model
     use HasFactory;
 
     protected $table = 'posts';
-    protected $fillable = ['author_id', 'title', 'content', 'status'];
+    protected $fillable = ['author_id', 'title', 'content', 'preview', 'status'];
 
     public function images(): HasOne{
         return $this->hasOne(Image::class);
@@ -21,5 +21,9 @@ class Post extends Model
 
     public function categories(): BelongsToMany{
         return $this->belongsToMany(Category::class);
+    }
+
+    public static function getPostById($id){
+        return self::find($id);
     }
 }
