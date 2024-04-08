@@ -19,11 +19,35 @@ class HomeController extends Controller
         $posts = Post::paginate(3);
         return view('home.index', ['posts' => $posts]);
     }
+
+    public function create_view(){
+        return view('home.create');
+    }
+
+    /**
+     *@param Request $request
+     */
+    public function create(Request $request){
+        $validatedPost = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->author_id = auth()->user()->id;
+        $post->content = $request->content;
+        $post->save();
+
+        return redirect(route('home_page'))->with('success', 'Post created.');
+    }
     public function showPublished(){
         $posts = Post::where('status', PostStatus::PUBLISHED)->paginate(3);
         return view('home.index', ['posts' => $posts]);
     }
-
+    /**
+     *@param int $post_id
+     */
     public function show($post_id){
         $post = Post::getPostById($post_id);
         $categories = Category::all();
@@ -35,10 +59,24 @@ class HomeController extends Controller
         return view('home.index', ['posts' => $posts]);
     }
 
+    /**
+     * @param int $post_id
+     */
     public function delete($post_id){
-        return;
+        $post = Post::find($post_id);
+
+        if(!$post) {
+            return response()->json(['message' => 'not found'], 404);
+        }
+        $post->delete();
+        return redirect(route('home_page'));
+//        return response()->json(['message' => 'deleted successfully'], 200);
     }
 
+    /**
+     *@param Request $request
+     * @param int $post_id
+     */
     public function edit(Request $request,$post_id){
         $post = Post::getPostById($post_id);
 

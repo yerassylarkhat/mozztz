@@ -22,7 +22,8 @@ Route::get('/login', [LoginController::class, 'show_login_view'])->name('login')
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
+Route::get('/create', [HomeController::class, 'create_view'])->name('create')->middleware('admin');
+Route::post('/create', [HomeController::class, 'create'])->middleware('admin');
 Route::get('/posts/all', [HomeController::class, 'index'])->name('home_page')->middleware('auth');
 Route::get('/posts/published', [HomeController::class, 'showPublished'])->name('show_published')->middleware('auth');
 Route::get('/posts/drafts', [HomeController::class, 'showDrafts'])->name('show_drafts')->middleware('admin');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Role;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class AdminMiddleware
             return redirect('/login');
         }
 
-        if(auth()->user()->role !== 'Admin'){
+        if(auth()->user()->role != Role::ADMIN){
             abort(403, 'Access denied.');
         }
         return $next($request);

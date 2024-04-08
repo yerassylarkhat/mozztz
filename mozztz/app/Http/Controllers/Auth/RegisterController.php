@@ -15,6 +15,9 @@ class RegisterController extends Controller
         return view('auth/register');
     }
 
+    /**
+     *@param Request $request
+     */
     public function register_user(Request $request){
         $request->validate([
             'username' => 'required|string|unique:users|max:20',

@@ -18,12 +18,17 @@
                         <p class="card-text">{{ $post->content }}</p>
                     </div>
                     <div class="card-footer">
+                        @if(auth()->user()->role == \App\Enums\Role::MODERATOR || auth()->user()->role == \App\Enums\Role::ADMIN)
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editPostModal">Edit</button>
+                        @endif
+
+                        @if(auth()->user()->role == \App\Enums\Role::ADMIN)
                         <form action="{{ route('post_delete', $post->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
                         </form>
+                            @endif
                     </div>
                 </div>
             </div>
