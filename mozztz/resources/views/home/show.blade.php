@@ -53,6 +53,16 @@
                             <textarea class="form-control" id="edit-content" name="content">{{ $post->content }}</textarea>
                         </div>
                         <div class="form-group">
+                            <label for="edit-category">Categories</label>
+                            <select class="form-control" id="edit-category" name="category_ids[]" multiple>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ in_array($category->id, $post->categories->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="edit-preview">Preview Image</label>
                             <input type="file" class="form-control-file" id="edit-preview" name="preview">
                         </div>
@@ -60,6 +70,10 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="edit-status" name="status">
+                            <label class="form-check-label" for="edit-status">Set as Draft</label>
+                        </div>
                     </div>
                 </form>
             </div>

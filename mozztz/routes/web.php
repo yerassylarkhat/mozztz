@@ -23,7 +23,9 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home_page')->middleware('auth');
+Route::get('/posts/all', [HomeController::class, 'index'])->name('home_page')->middleware('auth');
+Route::get('/posts/published', [HomeController::class, 'showPublished'])->name('show_published')->middleware('auth');
+Route::get('/posts/drafts', [HomeController::class, 'showDrafts'])->name('show_drafts')->middleware('admin');
 Route::get('/post/{post_id}', [HomeController::class, 'show'])->name('show_page')->middleware('auth');
 
 Route::delete('/post/{post_id}/delete', [HomeController::class, 'delete'])->name('post_delete')->middleware('admin');
